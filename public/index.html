@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>InkFlow — Blog Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('home')">Ink<span>Flow</span></div>
+    <div class="nav-center" id="nav-search-wrap">
+      <input type="text" id="nav-search" placeholder="Search posts..." oninput="searchPosts()"/>
+    </div>
+    <div class="nav-right">
+      <a class="nav-link" onclick="showPage('home')">Blog</a>
+      <a class="nav-link" onclick="showPage('write')" id="nav-write" style="display:none">✏ Write</a>
+      <div class="nav-user hidden" id="nav-user">
+        <div class="avatar" id="nav-avatar">A</div>
+        <span id="nav-name"></span>
+        <button class="btn-ghost" onclick="logout()">Logout</button>
+      </div>
+      <button class="btn-green" onclick="showPage('auth')" id="nav-login">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div class="page" id="page-home">
+    <div class="hero">
+      <h1>Ideas worth <span>reading.</span></h1>
+      <p>A place to write, read, and connect with the world's thinkers.</p>
+    </div>
+    <div class="home-layout">
+      <div class="posts-main">
+        <div class="category-bar" id="category-bar"></div>
+        <div id="posts-list"><div class="loading">Loading posts...</div></div>
+      </div>
+      <aside class="sidebar">
+        <div class="sidebar-card">
+          <h3>Writing on InkFlow</h3>
+          <p>Share your ideas with the world. Join our community of thinkers and writers.</p>
+          <button class="btn-green w100" onclick="currentUser ? showPage('write') : showPage('auth')">Start Writing</button>
+        </div>
+        <div class="sidebar-card" id="trending-card">
+          <h3>Trending Tags</h3>
+          <div class="tag-cloud" id="tag-cloud"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- POST DETAIL PAGE -->
+  <div class="page hidden" id="page-post">
+    <div class="post-detail-wrap">
+      <div class="post-detail" id="post-detail"></div>
+      <div class="comments-section" id="comments-section"></div>
+    </div>
+  </div>
+
+  <!-- WRITE/EDIT PAGE -->
+  <div class="page hidden" id="page-write">
+    <div class="write-wrap">
+      <div class="write-header">
+        <h2 id="write-title-label">New Post</h2>
+        <div class="write-actions">
+          <button class="btn-ghost" onclick="showPage('home')">Cancel</button>
+          <button class="btn-green" onclick="publishPost()">Publish →</button>
+        </div>
+      </div>
+      <div class="write-form">
+        <input type="hidden" id="edit-post-id"/>
+        <div class="emoji-row">
+          <input type="text" id="post-emoji" placeholder="📝" maxlength="2" class="emoji-input"/>
+          <span class="emoji-hint">Pick a cover emoji</span>
+        </div>
+        <input type="text" id="post-title" placeholder="Your post title..." class="title-input"/>
+        <div class="meta-row">
+          <select id="post-category" class="meta-select">
+            <option>General</option><option>Tech</option><option>Tips</option>
+            <option>Database</option><option>Design</option><option>Career</option><option>Life</option>
+          </select>
+          <input type="text" id="post-tags" placeholder="Tags (comma separated)" class="meta-input"/>
+        </div>
+        <textarea id="post-content" placeholder="Write your story..." class="content-area"></textarea>
+        <p class="err" id="write-err"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH PAGE -->
+  <div class="page hidden" id="page-auth">
+    <div class="auth-center">
+      <div class="auth-card">
+        <div class="auth-logo">Ink<span>Flow</span></div>
+        <p class="auth-sub">Join the community of writers</p>
+        <div class="auth-tabs">
+          <button class="tab active" id="tl" onclick="switchTab('login')">Sign In</button>
+          <button class="tab" id="tr" onclick="switchTab('register')">Sign Up</button>
+        </div>
+        <div id="fl" class="auth-form">
+          <input type="email" id="l-email" placeholder="Email"/>
+          <input type="password" id="l-pass" placeholder="Password"/>
+          <button class="btn-green w100" onclick="login()">Sign In</button>
+          <p class="hint">Demo: <code>avinash@blog.com / avinash123</code></p>
+          <p class="err" id="l-err"></p>
+        </div>
+        <div id="fr" class="auth-form hidden">
+          <input type="text" id="r-name" placeholder="Full Name"/>
+          <input type="email" id="r-email" placeholder="Email"/>
+          <input type="password" id="r-pass" placeholder="Password (min 6)"/>
+          <input type="text" id="r-bio" placeholder="Short bio (optional)"/>
+          <button class="btn-green w100" onclick="register()">Create Account</button>
+          <p class="err" id="r-err"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
